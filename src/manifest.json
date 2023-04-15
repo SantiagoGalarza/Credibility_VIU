@@ -1,9 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension with React & Webpack",
-  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "name": "T-CREo v2",
+  "description": "Simple",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "declarativeContent",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://localhost/*",
+    "http://world-white-web.herokuapp.com/*",
+    "http://t-creo.herokuapp.com/*",
+    "http://107.170.90.209/*"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"
