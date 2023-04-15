@@ -52,13 +52,13 @@ const Popup = () => {
     console.log('OnlyIdUsuario', OnlyIdUsuario); */
 
     const promise1 = fetch(
-      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[0]}`
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[0]}&usuario=${usuario}`
     ).then((response) => response.json());
     const promise2 = fetch(
-      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[1]}`
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[1]}&usuario=${usuario}`
     ).then((response) => response.json());
     const promise3 = fetch(
-      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[2]}`
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[2]}&usuario=${usuario}`
     ).then((response) => response.json());
     const promesaCredibilidadUsuario = fetch(
       `http://localhost:8080/calculate/twitter/user/${usuario}`
@@ -138,7 +138,9 @@ const Popup = () => {
   useEffect(() => {
     getId();
     if (esTwitter) {
-      fetchData();
+      setTimeout(() => {
+        fetchData();
+      }, 1000);  
     }
   }, [usuario, esTwitter]);
 
