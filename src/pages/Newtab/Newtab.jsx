@@ -4,7 +4,7 @@ import './Newtab.css';
 import './Newtab.scss';
 
 const Newtab = () => {
-  return (
+ /* return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -22,7 +22,7 @@ const Newtab = () => {
         <h6>The color of this paragraph is defined using SASS.</h6>
       </header>
     </div>
-  );
+  );*/
 };
 
 export default Newtab;

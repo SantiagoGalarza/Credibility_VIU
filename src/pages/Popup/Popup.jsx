@@ -52,31 +52,48 @@ const Popup = () => {
     console.log('OnlyIdUsuario', OnlyIdUsuario); */
 
     const promise1 = fetch(
-      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[0]}&usuario=${usuario}`
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=0.34&maxFollowers=2000000&weightUser=0.33&weightSocial=0.33&weightHistoric=0&tweetId=${OnlyIds[0]}&usuario=${usuario}`
     ).then((response) => response.json());
     const promise2 = fetch(
-      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[1]}&usuario=${usuario}`
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=0.34&maxFollowers=2000000&weightUser=0.33&weightSocial=0.33&weightHistoric=0&tweetId=${OnlyIds[1]}&usuario=${usuario}`
     ).then((response) => response.json());
     const promise3 = fetch(
-      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=1&maxFollowers=2000000&weightUser=0&weightSocial=0&tweetId=${OnlyIds[2]}&usuario=${usuario}`
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=0.34&maxFollowers=2000000&weightUser=0.33&weightSocial=0.33&weightHistoric=0&tweetId=${OnlyIds[2]}&usuario=${usuario}`
     ).then((response) => response.json());
     const promesaCredibilidadUsuario = fetch(
       `http://localhost:8080/calculate/twitter/user/${usuario}`
     ).then((response) => response.json());
     const promesaCredibilidadSocial = fetch(
-      `http://localhost:8080/calculate/twitter/social/${usuario}`
+      `http://localhost:8080/calculate/twitter/social/${usuario}?maxFollowers=2000000`
+    ).then((response) => response.json());
+    const promesaCredibilidadHistorica = fetch(
+      `http://localhost:8080/calculate/twitter/historical/${usuario}`
+    ).then((response) => response.json());
+    const promisenew1 = fetch(
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=0.25&maxFollowers=2000000&weightUser=0.25&weightSocial=0.25&weightHistoric=0.25&tweetId=${OnlyIds[0]}`
+    ).then((response) => response.json());
+    const promisenew2 = fetch(
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=0.25&maxFollowers=2000000&weightUser=0.25&weightSocial=0.25&weightHistoric=0.25&tweetId=${OnlyIds[1]}`
+    ).then((response) => response.json());
+    const promisenew3 = fetch(
+      `http:localhost:8080/calculate/twitter/tweets?weightBadWords=0.33&weightMisspelling=0.23&weightSpam=0.44&weightText=0.25&maxFollowers=2000000&weightUser=0.25&weightSocial=0.25&weightHistoric=0.25&tweetId=${OnlyIds[2]}`
     ).then((response) => response.json());
 
-    // Usamos Promise.all para esperar a que se completen las tres promesas
-    Promise.all([promise1, promise2, promise3, promesaCredibilidadUsuario, promesaCredibilidadSocial])
+    // Usamos Promise.all para esperar a que se completen las promesas
+    Promise.all([promise1, promise2, promise3, promesaCredibilidadUsuario, promesaCredibilidadSocial, promesaCredibilidadHistorica,promisenew1,promisenew2,promisenew3])
       .then((users) => {
         setDatosCredebility(users);
-        setCredibilidadUsuario(users[3])
+        setCredibilidadUsuario(users[5])
         // Los resultados de las tres promesas se pasan como un array de objetos
         console.log(users[0]); // información del usuario 1
         console.log(users[1]); // información del usuario 2
         console.log(users[2]); // información del usuario 3
-        console.log(users[3]); // información del usuario 3
+        console.log(users[3]); // credibilidad de usuario
+        console.log(users[4]); // credibilidad de social
+        console.log(users[5]); // credibilidad historica
+        console.log(users[6]); // nueva credibilidad del usuario 1
+        console.log(users[7]); // nueva credibilidad del usuario 2
+        console.log(users[8]); // nueva credibilidad del usuario 3
       })
       .catch((error) => console.error(error));
 
@@ -224,10 +241,22 @@ const Popup = () => {
                     </b>
             </Typography>
             <Typography variant="caption" component="div">
-              Credibilidad Social:
+              Credibilidad Social: <b style={{ color: 'green' }}>
+                      {datosCredebility &&
+                        Number(datosCredebility[4].credibility).toFixed(
+                          2
+                        )}
+                      %
+                    </b>
             </Typography>
             <Typography variant="caption" component="div">
-              Credibilidad Histórica:
+              Credibilidad Histórica: <b style={{ color: 'red' }}>
+                      {datosCredebility &&
+                        Number(datosCredebility[5].credibility).toFixed(
+                          2
+                        )}
+                      %
+                    </b>
             </Typography>
           </Box>
           {datosTwitter.map(
@@ -299,7 +328,14 @@ const Popup = () => {
                   </Typography>
 
                   <Typography variant="caption" component="div">
-                    Nueva Credibilidad: 96%
+                  Nueva Credibilidad:{' '}
+                    <b style={{ color: 'red' }}>
+                      {datosCredebility &&
+                        Number(datosCredebility[index+6].credibility).toFixed(
+                          2
+                        )}{' '}
+                      %
+                    </b>
                   </Typography>
                 </Box>
               </Box>
